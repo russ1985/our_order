@@ -1,16 +1,18 @@
 Ext.define('OurOrder.model.Person', {
     extend: 'Ext.data.Model',
     config: {
-        idProperty: 'id',
+        proxy: {
+            type: 'localstorage',
+            id  : 'ourorder-person-storage'
+        },
+		idProperty: 'id',
 		fields: [
             { name: 'id', type: 'int' },
-            { name: 'firstName', type: 'string' },
-			{ name: 'lastName', type: 'string' }
+            { name: 'name', type: 'string' }
         ],
 		validations:[
-			{ type: 'presence', field: 'firstName' },
-			{ type: 'presence', field: 'lastName' }
+			{ type: 'presence', field: 'name' }
 		],
-		hasMany:'OrderItem'
+		hasMany: {model:'OurOrder.model.MenuItem', name:'menuItems'}
     }
 });

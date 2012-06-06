@@ -3,6 +3,7 @@ Ext.define('OurOrder.model.Topping', {
     config: {
         fields: [
             { name: 'id', type: 'int' },
+			{ name: 'menu_item_id', type: 'int' },
             { name: 'name', type: 'string' },
 			{ name: 'description', type: 'string' }
         ],

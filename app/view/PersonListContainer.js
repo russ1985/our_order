@@ -7,18 +7,21 @@ Ext.define("OurOrder.view.PersonListContainer", {
     },
 	
 	onNewPersonTap: function(){
-		console.log('newPersonCommand');
 		this.fireEvent('newPersonCommmand', this);
 	},
 	
-	onPersonListDisclose: function(){
+	onPersonDeleteTap: function(){
+		this.fireEvent('deletePersonCommand', this);
+	},
 	
+	onPersonListDisclose: function(list, record, target, index, e, eopts){
+		this.fireEvent('showOrderItemsCommand', this, record);
 	},
 	
 	initialize: function(){
 		this.callParent(arguments);
 		
-		var toolBar = {
+		var topToolBar = {
             xtype: "toolbar",
             docked: "top",
             title: "Our Order",
@@ -28,11 +31,22 @@ Ext.define("OurOrder.view.PersonListContainer", {
                 xtype: "button",
                 text: "Add Person",
                 ui: "action",
-                id:"new-person-btn",
-				handler:this.onPersonButtonTap,
+				handler:this.onNewPersonTap,
 				scope:this
             }]
         };
+		
+		var bottomToolBar = {
+			xtype: "toolbar",
+            docked: "bottom",
+            items: [{
+                xtype: "button",
+                iconCls: "trash",
+				iconMask: true,
+				handler:this.onPersonDeleteTap,
+				scope:this
+            }]
+		};
 		
 		var personList = {
 			xtype:'personList',
@@ -42,7 +56,6 @@ Ext.define("OurOrder.view.PersonListContainer", {
 			}
 		};
 		
-		this.add(toolBar);
-		this.add(personList);
+		this.add([topToolBar,personList,bottomToolBar]);
 	}
 });

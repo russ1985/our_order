@@ -11,11 +11,11 @@ Ext.application({
         'Ext.MessageBox'
     ],
 
-    views: ['PersonListContainer','PersonList'],
+    views: ['PersonListContainer','PersonList','MenuItemListContainer','MenuItemList'],
 	
-	controllers: ['Person'],
+	controllers: ['Person', 'MenuItem'],
 	
-	models: ["Person"],
+	models: ["Person", "MenuItem"],
 	
 	stores: ["People"],
 
@@ -34,7 +34,7 @@ Ext.application({
         Ext.fly('appLoadingIndicator').destroy();
 
         // Initialize the PersonListContainer view
-        Ext.Viewport.add({xtype:'personlistcontainer'});
+        Ext.Viewport.add({xtype:'personlistcontainer'},{xtype:'menuitemlistcontainer'});
     },
 
     onUpdated: function() {
