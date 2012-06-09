@@ -11,13 +11,13 @@ Ext.application({
         'Ext.MessageBox'
     ],
 
-    views: ['PersonListContainer','PersonList','MenuItemListContainer','MenuItemList'],
+    views: ['PersonListContainer','PersonList','MenuItemListContainer','MenuItemList','ToppingListContainer','ToppingList'],
 	
-	controllers: ['Person', 'MenuItem'],
+	stores: ['People'],
 	
-	models: ["Person", "MenuItem"],
+	controllers: ['Person', 'MenuItem', 'Topping'],
 	
-	stores: ["People"],
+	models: ["Person", "MenuItem", "Topping"],
 
     icon: {
         57: 'resources/icons/Icon.png',
@@ -34,7 +34,7 @@ Ext.application({
         Ext.fly('appLoadingIndicator').destroy();
 
         // Initialize the PersonListContainer view
-        Ext.Viewport.add({xtype:'personlistcontainer'},{xtype:'menuitemlistcontainer'});
+        Ext.Viewport.add({xtype:'personlistcontainer'},{xtype:'menuitemlistcontainer'},{xtype:'toppinglistcontainer'});
     },
 
     onUpdated: function() {

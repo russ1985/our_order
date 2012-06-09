@@ -18,6 +18,10 @@ Ext.define("OurOrder.view.PersonListContainer", {
 		this.fireEvent('showOrderItemsCommand', this, record);
 	},
 	
+	onClearOrder: function(){
+		this.fireEvent('clearOrderCommand', this);
+	},
+	
 	initialize: function(){
 		this.callParent(arguments);
 		
@@ -25,7 +29,15 @@ Ext.define("OurOrder.view.PersonListContainer", {
             xtype: "toolbar",
             docked: "top",
             title: "Our Order",
-            items: [{
+            items: [
+			{
+                xtype: "button",
+                text: "Clear Order",
+                ui: "action",
+				handler:this.onClearOrder,
+				scope:this
+            },
+			{
                 xtype: "spacer"
             }, {
                 xtype: "button",
@@ -50,7 +62,7 @@ Ext.define("OurOrder.view.PersonListContainer", {
 		
 		var personList = {
 			xtype:'personList',
-			store:Ext.getStore('People'),
+			store:Ext.getStore("People"),
 			listeners:{
 				disclose: {fn :this.onPersonListDisclose, scope:this}
 			}

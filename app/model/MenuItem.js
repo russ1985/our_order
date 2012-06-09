@@ -1,10 +1,11 @@
 Ext.define('OurOrder.model.MenuItem', {
     extend: 'Ext.data.Model',
     config: {
-        proxy: {
+		proxy: {
             type: 'localstorage',
-            id  : 'ourorder-menuitem-storage'
+            id  : 'ourorder-menuitems-storage'
         },
+		idProperty: 'id',
 		fields: [
             { name: 'id', type: 'int' },
 			{ name: 'person_id', type: 'int' },
@@ -15,8 +16,8 @@ Ext.define('OurOrder.model.MenuItem', {
 			{ type: 'presence', field: 'name' }
 		],
 		associations: [
-            { type: 'belongsTo', model: 'OurOrder.model.Person', foreignKey: 'person_id' },
-			{ type: 'hasMany', model: 'OurOrder.model.Topping'}
+            { type: 'belongsTo', model: 'OurOrder.model.Person', name:'person', foreignKey: 'person_id' },
+			{ type: 'hasMany', model: 'OurOrder.model.Topping', name:'toppings', foreignKey: 'menuItem_id' }
         ]
     }
 });

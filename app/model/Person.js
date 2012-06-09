@@ -1,10 +1,6 @@
 Ext.define('OurOrder.model.Person', {
     extend: 'Ext.data.Model',
     config: {
-        proxy: {
-            type: 'localstorage',
-            id  : 'ourorder-person-storage'
-        },
 		idProperty: 'id',
 		fields: [
             { name: 'id', type: 'int' },
@@ -13,6 +9,6 @@ Ext.define('OurOrder.model.Person', {
 		validations:[
 			{ type: 'presence', field: 'name' }
 		],
-		hasMany: {model:'OurOrder.model.MenuItem', name:'menuItems'}
+		hasMany: {model:'OurOrder.model.MenuItem', name:'menuItems', foreignKey:'person_id'}
     }
 });

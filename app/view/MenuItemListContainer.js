@@ -7,8 +7,8 @@ Ext.define("OurOrder.view.MenuItemListContainer", {
 		layout:'fit'
     },
 	
-	onBackToOrderTap: function(){
-		this.fireEvent('backToOrderCommmand', this);
+	onBackToPeopleTap: function(){
+		this.fireEvent('backToPeopleCommmand', this);
 	},
 	
 	onNewMenuItemTap: function(){
@@ -19,8 +19,12 @@ Ext.define("OurOrder.view.MenuItemListContainer", {
 		this.fireEvent('deleteMenuItemCommand', this);
 	},
 	
-	onMenuItemDisclose: function(){
-		this.fireEvent('deleteMenuItemCommand', this);
+	onShowToppingsCommand: function(list, record, target, index, e, eopts){
+		this.fireEvent('showToppingsCommand', this, record);
+	},
+	
+	setPerson: function(person){
+		this.person = person;
 	},
 	
 	initialize: function(){
@@ -33,9 +37,9 @@ Ext.define("OurOrder.view.MenuItemListContainer", {
             items: [
 			{
                 xtype: "button",
-                text: "Back To Order",
+                text: "Back To People",
                 ui: "back",
-				handler:this.onBackToOrderTap,
+				handler:this.onBackToPeopleTap,
 				scope:this
             },
 			{
@@ -64,7 +68,7 @@ Ext.define("OurOrder.view.MenuItemListContainer", {
 		var menuItemList = {
 			xtype:'menuitemlist',
 			listeners:{
-				disclose: {fn :this.onMenuItemDisclose, scope:this}
+				disclose: {fn :this.onShowToppingsCommand, scope:this}
 			}
 		};
 		

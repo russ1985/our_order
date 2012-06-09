@@ -1,21 +1,22 @@
 Ext.define('OurOrder.controller.MenuItem', {
     extend: 'Ext.app.Controller',
-	
 	config: {
 		refs: {
 			menuItemListContainer: "menuitemlistcontainer",
 			personListContainer: "personlistcontainer",
+			toppinglistcontainer: "toppinglistcontainer"
 		},
 		control: {
 			menuItemListContainer: {
-			    backToOrderCommmand: 'onBackToOrderCommmand',
+			    backToPeopleCommmand: 'onBackToPeopleCommmand',
 				newMenuItemCommmand: 'onNewMenuItemCommmand',
-				deletePersonCommand: 'onDeleteMenuItemCommand'
+				deleteMenuItemCommand: 'onDeleteMenuItemCommand',
+				showToppingsCommand: 'onShowToppingsCommand'
 			}
 		}
 	},
 	
-	onBackToOrderCommmand: function(){
+	onBackToPeopleCommmand: function(){
 		var personListContainer = this.getPersonListContainer();
 		Ext.Viewport.animateActiveItem(personListContainer, { type: 'slide', direction: 'right' });
 	},
@@ -28,15 +29,33 @@ Ext.define('OurOrder.controller.MenuItem', {
 					Ext.Msg.alert("Error", "You have to add something.");
 				}
 				else{
-					var store = menuItemListContainer.down('menuitemlist').getStore();
-					store.add({name:value});
-					store.sync();
+					menuItemListContainer.person.menuItems().add({name:value});
+					menuItemListContainer.person.menuItems().sync();
 				}
 		});
 	},
 	
-	onDeleteMenuItemCommand: function(personListContanier){
-
+	onDeleteMenuItemCommand: function(menuItemListContainer){
+		if(menuItemListContainer.down('menuitemlist').getSelection().length == 0){
+				Ext.Msg.alert("Error", "Please select something.");
+		}
+		else{
+			menuItem = menuItemListContainer.down('menuitemlist').getSelection()[0];
+			Ext.Msg.confirm("Delete Selection", "Are you sure you want to delete "+menuItem.get('name')+" ?", function(answer){
+						if(answer === 'yes'){
+							menuItemListContainer.person.menuItems().remove(menuItem);
+					        menuItemListContainer.person.menuItems().sync();
+						}
+				});
+		}
+	},
+	
+	onShowToppingsCommand: function(menuItemListContanier, menuItem){
+		var toppingListContainer = this.getToppinglistcontainer();
+		toppingListContainer.query('#toptoolbar')[0].setTitle(menuItem.getPerson().get('name') + "'s " +menuItem.get('name')+ "'s Toppings");
+		toppingListContainer.down('toppinglist').setStore(menuItem.toppings());
+		toppingListContainer.setMenuItem(menuItem);
+		Ext.Viewport.animateActiveItem(toppingListContainer, { type: 'slide', direction: 'left' });
 	},
 	
 	launch: function(){

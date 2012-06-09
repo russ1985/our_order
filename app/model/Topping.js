@@ -1,16 +1,21 @@
 Ext.define('OurOrder.model.Topping', {
     extend: 'Ext.data.Model',
     config: {
+		idProperty: 'id',
+		proxy: {
+            type: 'localstorage',
+            id  : 'ourorder-toppings-storage'
+        },
         fields: [
             { name: 'id', type: 'int' },
-			{ name: 'menu_item_id', type: 'int' },
-            { name: 'name', type: 'string' },
-			{ name: 'description', type: 'string' }
+			{ name: 'menuItem_id', type: 'int' },
+            { name: 'name', type: 'string' }
         ],
 		validations:[
-			{ type: 'presence', field: 'name' },
-			{ type: 'presence', field: 'description' }
+			{ type: 'presence', field: 'name' }
 		],
-		belongsTo:'MenuItem'
+		associations: [
+            { type: 'belongsTo', model: 'OurOrder.model.MenuItem', name:'menuItem', foreignKey: 'menuItem_id' },
+        ]
     }
 });
