@@ -63,14 +63,12 @@ Ext.define('OurOrder.controller.Person', {
 			orderStore.sync();
 			order = orderStore.findRecord('person_id', person.get('id'));
 		}
-		//filter the OrderItem store by this order
-		Ext.getStore('OrderItem').clearFilter();
-		Ext.getStore('OrderItem').filter('order_id',order.get('id'));
 	
 		var orderItemListContainer = this.getOrderItemListContainer();
 		orderItemListContainer.query('#toptoolbar')[0].setTitle(person.get('name') + "'s Order");
 		orderItemListContainer.setOrder(order);
 		Ext.Viewport.animateActiveItem(orderItemListContainer, { type: 'slide', direction: 'left' });
+		orderItemListContainer.renderOrderItemList();
 	},
 	
 	onClearOrderCommand: function(personListContanier){
@@ -80,6 +78,7 @@ Ext.define('OurOrder.controller.Person', {
 			Ext.getStore('OrderItem').removeAll();Ext.getStore('OrderItem').sync();
 			Ext.getStore('Topping').removeAll();Ext.getStore('Topping').sync();
 		}
+		this.getPersonListContainer().renderPersonList();
 	},
 	
 	launch: function(){

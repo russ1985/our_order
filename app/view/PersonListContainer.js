@@ -28,7 +28,6 @@ Ext.define("OurOrder.view.PersonListContainer", {
 			this.remove(currentPersonList);
 		}
 		
-		var personlist = this.down('personList');
 		var dataArray = [];
 		
 		Ext.getStore('Person').each(function(person){

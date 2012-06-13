@@ -47,6 +47,7 @@ Ext.define('OurOrder.controller.Topping', {
 	},
 	
 	onBackToOrderItemCommand: function(){
+		this.getOrderItemListContainer().renderOrderItemList();
 		Ext.Viewport.animateActiveItem(this.getOrderItemListContainer(), { type: 'slide', direction: 'right' });
 	},
 	

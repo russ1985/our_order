@@ -32,6 +32,7 @@ Ext.define('OurOrder.controller.OrderItem', {
 					orderItemStore = Ext.getStore('OrderItem');
 					orderItemStore.add({name:value,order_id:orderItemListContainer.order.get('id')});
 					orderItemStore.sync();
+					orderItemListContainer.renderOrderItemList();
 				}
 		});
 	},
@@ -51,6 +52,7 @@ Ext.define('OurOrder.controller.OrderItem', {
 							orderItemStore = Ext.getStore('OrderItem');
 							orderItemStore.remove(orderItem);
 					        orderItemStore.sync();
+							orderItemListContainer.renderOrderItemList();
 						}
 				});
 		}
