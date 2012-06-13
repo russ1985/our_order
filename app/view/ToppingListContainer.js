@@ -1,7 +1,7 @@
 Ext.define("OurOrder.view.ToppingListContainer", {
     extend: "Ext.Container",
     alias:"widget.toppinglistcontainer",
-	menuItem:null,
+	orderItem:null,
 	
 	config: {
 		layout:'fit'
@@ -15,12 +15,12 @@ Ext.define("OurOrder.view.ToppingListContainer", {
 		this.fireEvent('deleteToppingCommand', this);
 	},
 	
-	onBackToOrderTap: function(){
-		this.fireEvent('backToOrderCommand', this);
+	onBackToOrderItemTap: function(){
+		this.fireEvent('backToOrderItemCommand', this);
 	},
 	
-	setMenuItem: function(menuItem){
-		this.menuItem = menuItem;
+	setOrderItem: function(orderItem){
+		this.orderItem = orderItem;
 	},
 	
 	initialize: function(){
@@ -36,7 +36,7 @@ Ext.define("OurOrder.view.ToppingListContainer", {
                 xtype: "button",
                 text: "Back To Order",
                 ui: "back",
-				handler:this.onBackToOrderTap,
+				handler:this.onBackToOrderItemTap,
 				scope:this
             },
 			{
@@ -63,7 +63,8 @@ Ext.define("OurOrder.view.ToppingListContainer", {
 		};
 		
 		var toppingsList = {
-			xtype:'toppinglist'
+			xtype:'toppinglist',
+			store:Ext.getStore('Topping')
 		};
 		
 		this.add([topToolBar,toppingsList,bottomToolBar]);

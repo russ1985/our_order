@@ -3,28 +3,28 @@ Ext.define('OurOrder.controller.Topping', {
 	
 	config: {
 		refs: {
-			menuItemListContainer: "menuitemlistcontainer",
+			orderItemListContainer: "orderitemlistcontainer",
 			toppingListContainer: "toppinglistcontainer",
 		},
 		control: {
 			toppingListContainer: {
 			    newToppingCommmand: 'onNewToppingCommmand',
 				deleteToppingCommand: 'onDeleteToppingCommand',
-				backToOrderCommand: 'onBackToOrderCommand'
+				backToOrderItemCommand: 'onBackToOrderItemCommand'
 			}
 		}
 	},
 	
 	onNewToppingCommmand: function(){
-		var self = this;
 		var toppingListContainer = this.getToppingListContainer();
 		Ext.Msg.prompt("Add a topping", "What do you want to add as a topping?", function(btnId, value){
 				if(Ext.isEmpty(value)){
 					Ext.Msg.alert("Error", "You have to add something.");
 				}
 				else{
-					toppingListContainer.menuItem.toppings().add({name:value});
-					toppingListContainer.menuItem.toppings().sync();
+					toppingStore = Ext.getStore('Topping');
+					toppingStore.add({name:value, orderItem_id:toppingListContainer.orderItem.get('id')});
+					toppingStore.sync();
 				}
 		});
 	},
@@ -37,15 +37,17 @@ Ext.define('OurOrder.controller.Topping', {
 			topping = toppingListContanier.down('toppinglist').getSelection()[0];
 			Ext.Msg.confirm("Delete Selection", "Are you sure you want to delete "+topping.get('name')+" ?", function(answer){
 						if(answer === 'yes'){
-							toppingListContainer.menuItem.toppings().remove(topping);
-							toppingListContainer.menuItem.toppings().sync();
+							toppingListContanier.down('toppinglist').deselectAll();
+							toppingStore = Ext.getStore('Topping');
+							toppingStore.remove(topping);
+					        toppingStore.sync();
 						}
 				});
 		}
 	},
 	
-	onBackToOrderCommand: function(){
-		Ext.Viewport.animateActiveItem(this.getMenuItemListContainer(), { type: 'slide', direction: 'right' });
+	onBackToOrderItemCommand: function(){
+		Ext.Viewport.animateActiveItem(this.getOrderItemListContainer(), { type: 'slide', direction: 'right' });
 	},
 	
 	launch: function(){

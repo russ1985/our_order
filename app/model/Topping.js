@@ -8,14 +8,12 @@ Ext.define('OurOrder.model.Topping', {
         },
         fields: [
             { name: 'id', type: 'int' },
-			{ name: 'menuItem_id', type: 'int' },
+			{ name: 'orderItem_id', type: 'int' },
             { name: 'name', type: 'string' }
         ],
 		validations:[
-			{ type: 'presence', field: 'name' }
-		],
-		associations: [
-            { type: 'belongsTo', model: 'OurOrder.model.MenuItem', name:'menuItem', foreignKey: 'menuItem_id' },
-        ]
+			{ type: 'presence', field: 'name' },
+			{ type: 'presence', field: 'orderItem_id' }
+		]
     }
 });

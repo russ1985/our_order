@@ -11,13 +11,13 @@ Ext.application({
         'Ext.MessageBox'
     ],
 
-    views: ['PersonListContainer','PersonList','MenuItemListContainer','MenuItemList','ToppingListContainer','ToppingList'],
+    views: ['PersonListContainer','PersonList','OrderItemListContainer','OrderItemList','ToppingListContainer','ToppingList'],
 	
-	stores: ['People'],
+	stores: ['Person', 'Order', 'OrderItem', 'Topping'],
 	
-	controllers: ['Person', 'MenuItem', 'Topping'],
+	controllers: ['Person', 'OrderItem', 'Topping'],
 	
-	models: ["Person", "MenuItem", "Topping"],
+	models: ["Person", "Order", "OrderItem", "Topping"],
 
     icon: {
         57: 'resources/icons/Icon.png',
@@ -33,8 +33,14 @@ Ext.application({
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();
 
-        // Initialize the PersonListContainer view
-        Ext.Viewport.add({xtype:'personlistcontainer'},{xtype:'menuitemlistcontainer'},{xtype:'toppinglistcontainer'});
+        // load stores
+		Ext.getStore("Person").load();
+		Ext.getStore("Order").load();
+		Ext.getStore("OrderItem").load();
+		Ext.getStore("Topping").load();
+		
+		// Initialize the PersonListContainer view
+        Ext.Viewport.add({xtype:'personlistcontainer'},{xtype:'orderitemlistcontainer'},{xtype:'toppinglistcontainer'});
     },
 
     onUpdated: function() {

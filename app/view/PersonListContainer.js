@@ -3,7 +3,7 @@ Ext.define("OurOrder.view.PersonListContainer", {
     alias:"widget.personlistcontainer",
 	
 	config: {
-		layout:'fit'
+		layout:'card'
     },
 	
 	onNewPersonTap: function(){
@@ -20,6 +20,47 @@ Ext.define("OurOrder.view.PersonListContainer", {
 	
 	onClearOrder: function(){
 		this.fireEvent('clearOrderCommand', this);
+	},
+	
+	renderPersonList: function(){
+	    var currentPersonList = this.down('#personlist-container');
+		if(!Ext.isEmpty(currentPersonList)){
+			this.remove(currentPersonList);
+		}
+		
+		var personlist = this.down('personList');
+		var dataArray = [];
+		
+		Ext.getStore('Person').each(function(person){
+			var personData = {};
+			personData['name'] = person.get('name');
+			personData['id'] = person.get('id');
+			var order = Ext.getStore("Order").findRecord('person_id', person.get('id'), 0, false, true, true);
+			personData['orderItems'] = [];
+			Ext.getStore('OrderItem').clearFilter();
+			if(!Ext.isEmpty(order)){
+				Ext.getStore('OrderItem').filter('order_id',order.get('id'))
+				Ext.getStore('OrderItem').each(function(orderItem){
+					var orderItemData = {name:orderItem.get('name'),toppings:[]};
+					Ext.getStore('Topping').clearFilter();
+					Ext.getStore('Topping').filter('orderItem_id',orderItem.get('id'))
+					Ext.getStore('Topping').each(function(topping){
+						orderItemData['toppings'].push({name:topping.get('name')});
+					});
+					personData['orderItems'].push(orderItemData);
+				});
+			}
+			dataArray.push(personData);
+		});
+		
+		this.add({
+			xtype:'personList',
+			itemId:'personlist-container',
+			data:dataArray,
+			listeners:{
+				disclose: {fn :this.onPersonListDisclose, scope:this}
+			}
+		});
 	},
 	
 	initialize: function(){
@@ -60,14 +101,6 @@ Ext.define("OurOrder.view.PersonListContainer", {
             }]
 		};
 		
-		var personList = {
-			xtype:'personList',
-			store:Ext.getStore("People"),
-			listeners:{
-				disclose: {fn :this.onPersonListDisclose, scope:this}
-			}
-		};
-		
-		this.add([topToolBar,personList,bottomToolBar]);
+		this.add([topToolBar,bottomToolBar]);
 	}
 });
